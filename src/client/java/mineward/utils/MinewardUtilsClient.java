@@ -18,7 +18,6 @@ public class MinewardUtilsClient implements ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register((client) -> {
 			PickupHighlight.updateParticles(client);
 			Cooldown.runTickFunctions(client);
-			GwonkleHelper.checkWaypoints(client);
 			Keybinds.checkInputs(client);
 		});
 

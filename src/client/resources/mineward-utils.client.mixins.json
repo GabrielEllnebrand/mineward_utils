@@ -3,7 +3,7 @@
 	"package": "mineward.utils.mixin.client",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
-		"ExampleClientMixin",
+		"MessageMixin",
 		"HeadMixin",
 		"ParticalMixin"
 	],

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Vec3d;
 
@@ -27,51 +25,43 @@ public class GwonkleHelper {
 		});
 	}
 
-	public static void checkWaypoints(MinecraftClient client) {
-
+	public static void checkWaypoints(String string) {
+		MinecraftClient client = utils.getClient();
 		PlayerEntity clientPlayer = client.player;
 		if (clientPlayer == null) {
 			return;
 		}
 
-		totalTickDelta += client.getTickDelta();
-		if (totalTickDelta < 2) {
-			return;
-		} else {
-			totalTickDelta = 0;
+		Vec3d user = clientPlayer.getPos();
+		switch (string) {
+			case "⓪ There is a treasure >500 blocks away":
+				updateWaypoints(user, 500, Integer.MAX_VALUE);
+				break;
+			case "⓪ There is a treasure 400-500 blocks away":
+				updateWaypoints(user, 400, 500);
+				break;
+			case "⓪ There is a treasure 300-400 blocks away":
+				updateWaypoints(user, 300, 400);
+				break;
+			case "⓪ There is a treasure 200-300 blocks away":
+				updateWaypoints(user, 200, 300);
+				break;
+			case "⓪ There is a treasure 100-200 blocks away":
+				updateWaypoints(user, 100, 200);
+				break;
+			case "⓪ There is a treasure 20-100 blocks away":
+				updateWaypoints(user, 20, 100);
+				break;
+			case "⓪ There is a treasure <20 blocks away":
+				updateWaypoints(user, 0, 20);
+				break;
+			case "Drawing map...":
+				resetWaypoints();
+				break;
+			default:
+				break;
 		}
-
-		ItemStack item = clientPlayer.getMainHandStack();
-		int id = Item.getRawId(item.getItem());
-
-		if (id == 1055) { // the id of empty map
-			String tooltip = item.getName().getString();
-			Vec3d user = clientPlayer.getPos();
-			switch (tooltip) {
-				case ">> ⓪ >500 blocks away <<":
-					updateWaypoints(user, Integer.MAX_VALUE, 500);
-					break;
-				case ">> ⓪ 300-500 blocks away <<":
-					updateWaypoints(user, 500, 300);
-					break;
-				case ">> ⓪ 100-300 blocks away <<":
-					updateWaypoints(user, 300, 100);
-					break;
-				case ">> ⓪ 20-100 blocks away <<":
-					updateWaypoints(user, 100, 20);
-					break;
-				case ">> ⓪ 0-20 blocks away <<":
-					updateWaypoints(user, 20, 0);
-					break;
-				case "Treasure Map":
-				case "Generating Map...":
-					resetWaypoints();
-					break;
-				default:
-					break;
-			}
-		}
-
+		client = null;
 	}
 
 	/**
@@ -81,11 +71,11 @@ public class GwonkleHelper {
 	 * @param high the highest distance
 	 * @param low  the lowest distance
 	 */
-	public static void updateWaypoints(Vec3d user, int high, int low) {
+	public static void updateWaypoints(Vec3d user, int low, int high) {
 		try {
 			for (int i = 0; i < waypoints.size(); i++) {
 				double dis = utils.getDistance(user, waypoints.get(i).getPos());
-				if (!fitsRange(high, low, dis)) {
+				if (!fitsRange(low, high, dis)) {
 					waypoints.remove(waypoints.get(i));
 				}
 			}
@@ -104,7 +94,7 @@ public class GwonkleHelper {
 	 * @param dis  the distance
 	 * @return true if in range, else false
 	 */
-	public static boolean fitsRange(int high, int low, double dis) {
+	public static boolean fitsRange(int low, int high, double dis) {
 		double margin = 5;
 		return dis <= high + margin && dis >= low - margin;
 	}

@@ -5,17 +5,13 @@ import net.minecraft.text.Text;
 
 public class OracleSolver {
     public static void parseString(String string) {
-        
-        if (string.contains("equal to") && string.contains("Is")) {
-            try {
-                int answer = solve(string);
-                MinecraftClient client = utils.getClient();
-                client.inGameHud.getChatHud().addMessage(Text.literal("answer is " + answer));
-            } catch (Exception e) {
-                // failed to parse string
-            }
+        try {
+            int answer = solve(string);
+            MinecraftClient client = utils.getClient();
+            client.inGameHud.getChatHud().addMessage(Text.literal("answer is " + answer));
+        } catch (Exception e) {
+            // failed to parse string
         }
-
     }
 
     /**
