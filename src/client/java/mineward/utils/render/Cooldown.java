@@ -46,8 +46,6 @@ public class Cooldown {
             add("Anchored", 3, 14, 0xffeef26a);
         } else if (item.contains("Arngrim Greataxe")) {
             add("Vortex of Rage", 15, 15, 0xff922b21);
-        } else if (item.contains("Elderbomb")) {
-            add("Ancient Judgement", 0, 7, 0xff95a5a6);
         } else if (item.contains("Snowy Cauldron")) {
             add("Cauldron", 10, 10, 0xff5dade2);
         } else if (item.contains("Stoneheart Sledgehammer")) {
@@ -77,6 +75,8 @@ public class Cooldown {
             add("Burrow", 0, 5, 0xffcc4e35);
         } else if (item.contains("Deathbloom")) {
             add("Entanglement", 4, 12, 0xffcc4e35);
+        } else if (item.contains("Elderbomb")) {
+            add("Ancient Judgement", 0, 7, 0xff95a5a6);
         }
     }
 
