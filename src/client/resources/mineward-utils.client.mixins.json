@@ -1,0 +1,13 @@
+{
+	"required": true,
+	"package": "mineward.utils.mixin.client",
+	"compatibilityLevel": "JAVA_17",
+	"client": [
+		"ExampleClientMixin",
+		"HeadMixin",
+		"ParticalMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
