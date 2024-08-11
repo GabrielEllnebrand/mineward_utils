@@ -7,7 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.TypedActionResult;
 
-public class Cooldown {
+public abstract class Cooldown {
 
     public static HashMap<Ability, String> activeCooldowns = new HashMap<>();
 

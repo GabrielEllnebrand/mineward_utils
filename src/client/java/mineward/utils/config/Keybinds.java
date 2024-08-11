@@ -1,13 +1,14 @@
-package mineward.utils;
+package mineward.utils.config;
 
 import org.lwjgl.glfw.GLFW;
 
+import mineward.utils.GwonkleHelper;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
-public class Keybinds {
+public abstract class Keybinds extends ConfigScreen{
     private static KeyBinding resetWaypoint;
     private static KeyBinding clearWaypoint;
     private static KeyBinding openConfig;
@@ -30,20 +31,19 @@ public class Keybinds {
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_O,
                 "Mineward Utils"));
-
-
     }
 
     /**
      * Checks inputs and executes if it meets any keybinds
+     * 
      * @param client MinecraftClient
      */
-    public static void checkInputs(MinecraftClient client){
+    public static void checkInputs(MinecraftClient client) {
         if (resetWaypoint.wasPressed()) {
             GwonkleHelper.resetWaypoints();
         }
         if (clearWaypoint.wasPressed()) {
-            GwonkleHelper.waypoints.clear();
+            GwonkleHelper.getWaypoints().clear();
         }
         if (openConfig.wasPressed()) {
             MinecraftClient.getInstance().setScreen(new ConfigScreen());

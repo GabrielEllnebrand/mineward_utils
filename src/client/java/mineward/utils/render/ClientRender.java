@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import org.joml.Matrix4f;
 
-import mineward.utils.Config;
 import mineward.utils.GwonkleHelper;
 import mineward.utils.PickupHighlight;
 import mineward.utils.Waypoint;
 import mineward.utils.utils;
+import mineward.utils.config.Config;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
@@ -19,7 +19,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
-public class ClientRender {
+public abstract class ClientRender {
 
     static float yOffsetWaypoint = 0;
     static int flyDirectionWaypoint = 1;

@@ -5,8 +5,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import mineward.utils.Config;
 import mineward.utils.utils;
+import mineward.utils.config.Config;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.HeadFeatureRenderer;
@@ -23,7 +23,6 @@ public abstract class HeadMixin <T extends LivingEntity> {
         if (Config.renderHead) {
             return;
         } else if(livingEntity.getName().contains(client.player.getName())){
-            System.out.println("works?");
             info.cancel();
             return;
         }

@@ -7,7 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public class utils {
+public abstract class utils {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger("mineward-utils");
 	static MinecraftClient client = MinecraftClient.getInstance();

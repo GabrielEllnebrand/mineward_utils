@@ -12,7 +12,7 @@ import mineward.utils.GwonkleHelper;
 import mineward.utils.OracleSolver;
 
 @Mixin(MessageHandler.class)
-public class MessageMixin {
+public abstract class MessageMixin {
 	@Inject(method = "onGameMessage", at = @At("HEAD"))
 	private void handle(Text message, boolean overlay, CallbackInfo info) {
 		String string = message.getString();

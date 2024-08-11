@@ -2,29 +2,20 @@ package mineward.utils;
 
 import java.util.ArrayList;
 
-import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Vec3d;
 
-public class GwonkleHelper {
+public abstract class GwonkleHelper {
 
 	static ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
 	static float totalTickDelta = 0.0f;
 
-	public static void register() {
-		resetWaypoints();
-
-		// resets waypoints on clicking chest
-		UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
-			if (waypoints.size() < 12) {
-				resetWaypoints();
-			}
-			return ActionResult.PASS;
-		});
-	}
-
+	/**
+	 * Takes in a string and checks if the remaining waypoints are in range,
+	 * if a waypoint is not in range remove it
+	 * @param string String
+	 */
 	public static void checkWaypoints(String string) {
 		MinecraftClient client = utils.getClient();
 		PlayerEntity clientPlayer = client.player;

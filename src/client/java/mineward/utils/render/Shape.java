@@ -11,7 +11,7 @@ import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.util.math.Vec3d;
 
-public class Shape {
+public abstract class Shape {
     /**
      * Draws a Line
      * 

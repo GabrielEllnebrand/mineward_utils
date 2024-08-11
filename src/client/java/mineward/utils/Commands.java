@@ -1,6 +1,8 @@
 package mineward.utils;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
+
+import mineward.utils.config.Config;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.text.Text;
@@ -40,11 +42,11 @@ public class Commands {
                                                         break;
                                                 case "render":
                                                 Config.renderWaypoints = !Config.renderWaypoints;
-                                                        Config.setBool("renderWaypoints", Config.renderWaypoints);
+                                                        Config.set("renderWaypoints", Config.renderWaypoints);
                                                         break;
                                                 case "display":
                                                         Config.displayWaypoints = !Config.displayWaypoints;
-                                                        Config.setBool("displayWaypoints", Config.displayWaypoints);
+                                                        Config.set("displayWaypoints", Config.displayWaypoints);
                                                         break;
                                         }
                                         return 1;
@@ -54,7 +56,7 @@ public class Commands {
                         .register(ClientCommandManager.literal("toggleHead")
                                 .executes(context -> {
                                         Config.renderHead = !Config.renderHead;
-                                        Config.setBool("displayHead", Config.renderHead);
+                                        Config.set("displayHead", Config.renderHead);
                                         return 1;
                                 }))); 
                                 
@@ -63,7 +65,7 @@ public class Commands {
                         .register(ClientCommandManager.literal("toggleCooldowns")
                                 .executes(context -> {
                                         Config.displayCooldowns = !Config.displayCooldowns;
-                                        Config.setBool("displayCooldowns", Config.renderHead);
+                                        Config.set("displayCooldowns", Config.renderHead);
                                         return 1;
                                 })));  
 
@@ -72,7 +74,7 @@ public class Commands {
                         .register(ClientCommandManager.literal("togglePickups")
                                 .executes(context -> {
                                         Config.renderPickups = !Config.renderPickups;
-                                        Config.setBool("renderPickups", Config.renderPickups);
+                                        Config.set("renderPickups", Config.renderPickups);
                                         return 1;
                                 })));  
 

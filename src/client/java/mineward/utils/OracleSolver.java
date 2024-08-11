@@ -3,7 +3,7 @@ package mineward.utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 
-public class OracleSolver {
+public abstract class OracleSolver {
     public static void parseString(String string) {
         try {
             int answer = solve(string);

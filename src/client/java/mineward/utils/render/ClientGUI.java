@@ -3,16 +3,16 @@ package mineward.utils.render;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import mineward.utils.Config;
 import mineward.utils.GwonkleHelper;
 import mineward.utils.Waypoint;
 import mineward.utils.utils;
+import mineward.utils.config.Config;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 
 
-public class ClientGUI {
+public abstract class ClientGUI{
     public static void register() {
         HudRenderCallback.EVENT.register((context, tickDelta) -> {
             if (Config.displayWaypoints) {
@@ -20,7 +20,9 @@ public class ClientGUI {
             }
             if (Config.displayCooldowns) {
                 renderAbilities(context, tickDelta);
-
+            }
+            if (Config.displayPickupCount) {
+                renderPickupCount(context);
             }
         });
 
@@ -85,6 +87,17 @@ public class ClientGUI {
                 AbilityRenderHeight += 24;
             });
         } catch (Exception e) {
+        }
+    }
+
+    /**
+     * Renders a counter on how many pickups youve done intotal
+     * @param context DrawContext
+     */
+    public static void renderPickupCount(DrawContext context){
+        MinecraftClient client = utils.getClient();
+        if (client.world.getRegistryKey().getValue().toString().contains("anvahar")) {
+            context.drawText(client.textRenderer, "Pickups: " + Config.pickupCount, 70, 240, 0xffffffff, true);
         }
     }
 }

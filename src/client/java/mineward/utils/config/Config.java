@@ -1,4 +1,4 @@
-package mineward.utils;
+package mineward.utils.config;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,9 @@ import java.nio.file.Files;
 
 import org.slf4j.Logger;
 
-public class Config {
+import mineward.utils.utils;
+
+public abstract class Config {
 
     public static final Logger LOGGER = utils.getLogger();
     static File config = new File("./config/mineward_utils.txt");
@@ -19,6 +21,9 @@ public class Config {
     public static boolean displayWaypoints = false;
     public static boolean renderPickups = false;
     public static boolean displayCooldowns = true;
+    public static boolean displayPickupCount = true;
+
+    public static int pickupCount = 0;
 
     /**
      * Registers config
@@ -50,6 +55,8 @@ public class Config {
         renderHead = searchBool("renderHead", true);
         renderPickups = searchBool("renderPickups", true);
         displayCooldowns = searchBool("displayCooldowns", true);
+        displayPickupCount = searchBool("displayPickupCount", true);
+        pickupCount = searchInt("pickupCount", 0);
     }
 
     /**
@@ -58,15 +65,30 @@ public class Config {
      * 
      * @param string       String to search
      * @param defaultValue Boolean, default value
-     * @param refrence     Boolean the reference to change
      */
     private static boolean searchBool(String string, Boolean defaultValue) {
         String parsed = getString(string);
-        System.out.println(parsed + " " + string);
         if (parsed != null) {
             return parseBool(parsed);
         } else {
-            addBool(string, defaultValue);
+            add(string, defaultValue);
+            return defaultValue;
+        }
+    }
+
+        /**
+     * Searches for if that int exists in the config file, if not add it and set
+     * to default value
+     * 
+     * @param string       String to search
+     * @param defaultValue int, default value
+     */
+    private static int searchInt(String string, int defaultValue) {
+        String parsed = getString(string);
+        if (parsed != null) {
+            return parseInt(parsed);
+        } else {
+            add(string, defaultValue);
             return defaultValue;
         }
     }
@@ -77,7 +99,7 @@ public class Config {
      * @param string String to add
      * @param value  Value to set it to
      */
-    private static void addBool(String string, boolean value) {
+    private static void add(String string, Object value) {
 
         try {
             List<String> lines = Files.readAllLines(config.toPath());
@@ -114,7 +136,7 @@ public class Config {
     }
 
     /**
-     * Takes in a string and returns the setting
+     * Takes in a string and returns the setting for a boolean value
      * 
      * @param string
      * @return True if true, false otherwise
@@ -130,12 +152,28 @@ public class Config {
     }
 
     /**
-     * Takes in a string to change its boolean on
+     * Takes in a string and returns the setting for an int value
+     * 
+     * @param string
+     * @return True if true, false otherwise
+     */
+    private static int parseInt(String string) {
+        int index = string.indexOf(":");
+        String parsed = string.substring(index + 1);
+        try {
+            return Integer.valueOf(parsed);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Takes in a string to change its value on
      * 
      * @param string String the string to change
-     * @param value  The new boolean value
+     * @param value  The new value
      */
-    public static void setBool(String string, boolean value) {
+    public static void set(String string, Object value) {
         try {
             List<String> lines = Files.readAllLines(config.toPath());
             for (int i = 0; i < lines.size(); i++) {

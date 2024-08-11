@@ -2,10 +2,14 @@ package mineward.utils;
 
 import java.util.ArrayList;
 
+import mineward.utils.config.Config;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.world.World;
 
-public class PickupHighlight {
+public abstract class PickupHighlight {
 
     private static ArrayList<Particle> particles = new ArrayList<>();
     public static float red = 0;
@@ -41,5 +45,16 @@ public class PickupHighlight {
 
     public static String color(){
         return red + " "  + blue + " " + green;
+    }
+
+    public static void increasePickupCount(){
+        Config.pickupCount++;
+        Config.set("PickupCount", Config.pickupCount);
+    }
+
+    public static void checkPickup(Entity entity, World world){
+        if (world.getRegistryKey().getValue().toString().contains("anvahar") && entity.getType() == EntityType.ARMOR_STAND) {
+            increasePickupCount();
+        }
     }
 }
