@@ -98,6 +98,14 @@ public class Commands {
                                         PickupHighlight.clear();
                                         return 1;
                                 })));  
+                                
+        ClientCommandRegistrationCallback.EVENT
+                .register((dispatcher, registryAccess) -> dispatcher
+                        .register(ClientCommandManager.literal("incPickup")
+                                .executes(context -> {
+                                        PickupHighlight.increasePickupCount();
+                                        return 1;
+                                })));   
                         }   
                         
                         

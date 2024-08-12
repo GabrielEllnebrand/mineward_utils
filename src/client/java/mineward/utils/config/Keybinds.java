@@ -8,10 +8,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
-public abstract class Keybinds extends ConfigScreen{
+public abstract class Keybinds extends ConfigScreen {
     private static KeyBinding resetWaypoint;
     private static KeyBinding clearWaypoint;
     private static KeyBinding openConfig;
+    private static KeyBinding leave;
 
     public static void register() {
         resetWaypoint = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -31,6 +32,12 @@ public abstract class Keybinds extends ConfigScreen{
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_O,
                 "Mineward Utils"));
+
+        leave = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "leaves the current run",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_L,
+                "Mineward Utils"));
     }
 
     /**
@@ -47,6 +54,11 @@ public abstract class Keybinds extends ConfigScreen{
         }
         if (openConfig.wasPressed()) {
             MinecraftClient.getInstance().setScreen(new ConfigScreen());
+        }
+        if (leave.wasPressed()) {
+            if (client.player != null && client.getNetworkHandler() != null) {
+                client.getNetworkHandler().sendChatCommand("md leave");
+            }
         }
     }
 

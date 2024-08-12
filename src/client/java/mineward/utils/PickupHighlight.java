@@ -49,7 +49,7 @@ public abstract class PickupHighlight {
 
     public static void increasePickupCount(){
         Config.pickupCount++;
-        Config.set("PickupCount", Config.pickupCount);
+        Config.set("pickupCount", Config.pickupCount);
     }
 
     public static void checkPickup(Entity entity, World world){
