@@ -24,7 +24,7 @@ public class MinewardUtilsClient implements ClientModInitializer {
 			PickupHighlight.updateParticles(client);
 			Cooldown.runTickFunctions(client);
 			Keybinds.checkInputs(client);
-
+			Dimension.checkTime(client);
 		});
 
 		UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {

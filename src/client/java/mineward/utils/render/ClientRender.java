@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.joml.Matrix4f;
 
+import mineward.utils.Dimension;
 import mineward.utils.GwonkleHelper;
 import mineward.utils.PickupHighlight;
 import mineward.utils.Waypoint;
@@ -43,7 +44,7 @@ public abstract class ClientRender {
         if (Config.renderWaypoints) {
             renderWaypoints(context);
         }
-        if (Config.renderPickups){
+        if (Config.renderPickups && Dimension.getDimension().contains("anvahar")){
             renderPickups(context);
 
         }

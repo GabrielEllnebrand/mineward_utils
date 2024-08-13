@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 
 public abstract class PickupHighlight {
 
+    private static String instanceName = "anvahar";
     private static ArrayList<Particle> particles = new ArrayList<>();
     public static float red = 0;
     public static float blue = 0;
@@ -28,6 +29,10 @@ public abstract class PickupHighlight {
             if (!particles.get(i).isAlive()) {
                 particles.remove(i);
             }
+        }
+
+        if (!Dimension.getDimension().contains(instanceName)) {
+            particles.clear();
         }
     }
 
@@ -53,7 +58,7 @@ public abstract class PickupHighlight {
     }
 
     public static void checkPickup(Entity entity, World world){
-        if (world.getRegistryKey().getValue().toString().contains("anvahar") && entity.getType() == EntityType.ARMOR_STAND) {
+        if (world.getRegistryKey().getValue().toString().contains(instanceName) && entity.getType() == EntityType.ARMOR_STAND) {
             increasePickupCount();
         }
     }
