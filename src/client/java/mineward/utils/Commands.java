@@ -105,7 +105,8 @@ public class Commands {
                                 .executes(context -> {
                                         PickupHighlight.increasePickupCount();
                                         return 1;
-                                })));   
+                                })));  
+                                
                         }   
                         
                         

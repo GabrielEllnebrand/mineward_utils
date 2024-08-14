@@ -2,7 +2,7 @@ package mineward.utils;
 
 import net.minecraft.client.MinecraftClient;
 
-public class Dimension {
+public abstract class Dimension {
 
     private static String dimension = "";
     private static double totalDeltaTime = 0;
