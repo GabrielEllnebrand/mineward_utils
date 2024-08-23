@@ -1,4 +1,5 @@
 package mineward.utils;
+
 import mineward.utils.config.Config;
 import mineward.utils.config.Keybinds;
 import mineward.utils.render.ClientGUI;
@@ -25,15 +26,17 @@ public class MinewardUtilsClient implements ClientModInitializer {
 			Cooldown.runTickFunctions(client);
 			Keybinds.checkInputs(client);
 			Dimension.checkTime(client);
+			DamageTracking.update(client);
 		});
 
 		UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
 			GwonkleHelper.resetWaypoints();
 			PickupHighlight.checkPickup(entity, world);
+
 			return ActionResult.PASS;
 		});
 
-		//load last
+		// load last
 		Config.register();
 	}
 }

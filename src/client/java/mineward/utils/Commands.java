@@ -6,7 +6,7 @@ import mineward.utils.config.Config;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.text.Text;
-public class Commands {
+public abstract class Commands {
 
     public static void register() {
 
@@ -25,6 +25,7 @@ public class Commands {
                         context.getSource().sendFeedback(Text.literal("/renderPickups: toggles the rendering of pickups\n"));
                         context.getSource().sendFeedback(Text.literal("/setPickupColor (float) (float) (float): sets the color of the pickups\n"));
                         context.getSource().sendFeedback(Text.literal("/clearPickups: clears all pickups\n"));
+                        context.getSource().sendFeedback(Text.literal("/resetTarget: Resets the targetdummy for the damage tracker to track\n"));
                                 return 1;
                         }))); 
 
@@ -107,6 +108,13 @@ public class Commands {
                                         return 1;
                                 })));  
                                 
+        ClientCommandRegistrationCallback.EVENT
+                .register((dispatcher, registryAccess) -> dispatcher
+                        .register(ClientCommandManager.literal("resetTarget")
+                                .executes(context -> {
+                                        DamageTracking.resetTarget();
+                                        return 1;
+                                })));  
                         }   
                         
                         

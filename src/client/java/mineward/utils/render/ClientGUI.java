@@ -3,6 +3,8 @@ package mineward.utils.render;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import mineward.utils.DamageTracking;
+import mineward.utils.Dimension;
 import mineward.utils.GwonkleHelper;
 import mineward.utils.Waypoint;
 import mineward.utils.utils;
@@ -10,12 +12,19 @@ import mineward.utils.config.Config;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.Vec3d;
 
+public abstract class ClientGUI {
 
-public abstract class ClientGUI{
     public static void register() {
         HudRenderCallback.EVENT.register((context, tickDelta) -> {
-            if (Config.displayWaypoints) {
+
+            if (Dimension.getDimension().contains("overworld")) {
+                renderDamageTracking(context);
+            }
+
+            if (Config.displayWaypoints && Dimension.getDimension().contains("oceanarea")) {
                 renderWaypointGUI(context);
             }
             if (Config.displayCooldowns) {
@@ -26,6 +35,17 @@ public abstract class ClientGUI{
             }
         });
 
+    }
+
+    public static void renderDamageTracking(DrawContext context) {
+        LivingEntity livingEntity = DamageTracking.getEntity();
+        MinecraftClient client = utils.getClient();
+        if (livingEntity != null &&  utils.inRange(client.player.getPos(), new Vec3d(1128, 65, 1006), 100)) {
+            context.drawText(client.textRenderer, DamageTracking.getDps() + "/s", 150,
+                    40,
+                    0xffffff,
+                    true);
+        }
     }
 
     /**
@@ -41,7 +61,7 @@ public abstract class ClientGUI{
                 true);
         for (int i = 0; i < waypoints.size() && i < 5; i++) {
             context.drawText(client.textRenderer, waypoints.get(i).getName() + "", 10, 20 + 10 * i,
-            0xffffff, true);
+                    0xffffff, true);
         }
     }
 
@@ -49,6 +69,7 @@ public abstract class ClientGUI{
 
     /**
      * Renders ability cooldowns
+     * 
      * @param context
      * @param tickDelta
      */
@@ -62,20 +83,21 @@ public abstract class ClientGUI{
             }
 
             Cooldown.activeCooldowns.forEach((ability, name) -> {
-                
+
                 String cd = new DecimalFormat("###.#").format((ability.getCooldown() - ability.getTime()));
                 String dur = new DecimalFormat("###.#").format((ability.getDuration() - ability.getTime()));
-                
-                context.fill(17, AbilityRenderHeight-1, 124, AbilityRenderHeight + 23, 0x10FFFFFF);
+
+                context.fill(17, AbilityRenderHeight - 1, 124, AbilityRenderHeight + 23, 0x10FFFFFF);
 
                 if (ability.getTime() < ability.getDuration()) {
-                    //when ability is active
-                    int length = (int)((120-20)*(1-ability.getTime()/ability.getDuration()))+20;
+                    // when ability is active
+                    int length = (int) ((120 - 20) * (1 - ability.getTime() / ability.getDuration())) + 20;
                     context.fill(20, AbilityRenderHeight + 10, length, AbilityRenderHeight + 21, ability.hexColor);
                     context.drawText(client.textRenderer, dur + "s", 60, AbilityRenderHeight + 12, 0xFF000000, false);
                 } else {
-                    //the cooldown
-                    int length = (int)((120-20)*(1-(ability.getTime()-ability.getDuration())/(ability.getCooldown()-ability.getDuration())))+20;
+                    // the cooldown
+                    int length = (int) ((120 - 20) * (1 - (ability.getTime() - ability.getDuration())
+                            / (ability.getCooldown() - ability.getDuration()))) + 20;
                     context.fill(20, AbilityRenderHeight + 10, length, AbilityRenderHeight + 21, ability.hexColor);
                     context.drawText(client.textRenderer, cd + "s", 60, AbilityRenderHeight + 12, 0xFF000000, false);
 
@@ -92,9 +114,10 @@ public abstract class ClientGUI{
 
     /**
      * Renders a counter on how many pickups youve done intotal
+     * 
      * @param context DrawContext
      */
-    public static void renderPickupCount(DrawContext context){
+    public static void renderPickupCount(DrawContext context) {
         MinecraftClient client = utils.getClient();
         if (client.world.getRegistryKey().getValue().toString().contains("anvahar")) {
             context.drawText(client.textRenderer, "Pickups: " + Config.pickupCount, 70, 240, 0xffffffff, true);
