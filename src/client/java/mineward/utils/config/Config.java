@@ -22,6 +22,7 @@ public abstract class Config {
     public static boolean renderPickups = false;
     public static boolean displayCooldowns = true;
     public static boolean displayPickupCount = true;
+    public static boolean usePerformanceMode = true;
 
     public static int pickupCount = 0;
 
@@ -57,6 +58,7 @@ public abstract class Config {
         displayCooldowns = searchBool("displayCooldowns", true);
         displayPickupCount = searchBool("displayPickupCount", true);
         pickupCount = searchInt("pickupCount", 0);
+        usePerformanceMode = searchBool("usePerformanceMode", true);
     }
 
     /**

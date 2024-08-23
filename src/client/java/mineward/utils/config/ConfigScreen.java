@@ -27,6 +27,7 @@ public class ConfigScreen extends Screen {
   public ButtonWidget renderPickups;
   public ButtonWidget displayCooldowns;
   public ButtonWidget displayPickupCount;
+  public ButtonWidget usePerformanceMode;
 
   private static int buttonWidth = 200;
 
@@ -85,7 +86,7 @@ public class ConfigScreen extends Screen {
         .tooltip(Tooltip.of(Text.literal("Toggles the display of cooldowns")))
         .build();
 
-        displayPickupCount = ButtonWidget
+    displayPickupCount = ButtonWidget
         .builder(Text.literal(makeBoolText("Pickup count: ", Config.displayPickupCount)), button -> {
           Config.displayPickupCount = !Config.displayPickupCount;
           Config.set("displayPickupCount", Config.displayPickupCount);
@@ -94,14 +95,25 @@ public class ConfigScreen extends Screen {
         .dimensions(width / 2 + 10, 70, buttonWidth, 20)
         .tooltip(Tooltip.of(Text.literal("Shows how many pickups youve interacted with")))
         .build();
-    
-  
+
+    usePerformanceMode = ButtonWidget
+        .builder(Text.literal(makeBoolText("Performance mode: ", Config.usePerformanceMode)), button -> {
+          Config.usePerformanceMode = !Config.usePerformanceMode;
+          Config.set("usePerformanceMode", Config.usePerformanceMode);
+          usePerformanceMode.setMessage(Text.literal(makeBoolText("Performance mode: ", Config.usePerformanceMode)));
+        })
+        .dimensions(width / 4 - 10, 95, buttonWidth, 20)
+        .tooltip(Tooltip.of(Text.literal("Toggles performance mode")))
+        .build();
+
     addDrawableChild(displayWaypoints);
     addDrawableChild(renderWaypoints);
     addDrawableChild(playerHead);
     addDrawableChild(renderPickups);
     addDrawableChild(displayCooldowns);
     addDrawableChild(displayPickupCount);
+    addDrawableChild(usePerformanceMode);
+
   }
 
   /**
