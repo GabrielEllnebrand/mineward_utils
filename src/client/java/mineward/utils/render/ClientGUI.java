@@ -40,6 +40,7 @@ public abstract class ClientGUI {
     public static void renderDamageTracking(DrawContext context) {
         LivingEntity livingEntity = DamageTracking.getEntity();
         MinecraftClient client = utils.getClient();
+
         if (livingEntity != null &&  utils.inRange(client.player.getPos(), new Vec3d(1128, 65, 1006), 100)) {
             context.drawText(client.textRenderer, DamageTracking.getDps() + "/s", 150,
                     40,

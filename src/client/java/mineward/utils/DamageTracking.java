@@ -22,22 +22,23 @@ public abstract class DamageTracking {
 
         if (livingEntity == null && totalTickDelta > 0.25) {
             findDummy(client);
-        } 
-        
-        //incase its still null
+        }
+
+        // incase its still null
         if (livingEntity == null) {
             return;
         }
 
-        if (livingEntity.isDead()){
+        if (livingEntity.isDead()) {
             livingEntity = null;
         } else {
             float hp = livingEntity.getHealth();
             if (hp < lastHealth) {
-                lastHit = lastHealth-hp;
+                lastHit = lastHealth - hp;
                 totalDamage += lastHit;
                 timeSinceLastDamage = 0;
             }
+
             lastHealth = hp;
         }
 
@@ -64,6 +65,10 @@ public abstract class DamageTracking {
             return;
         }
 
+        if (client.player == null) {
+            return;
+        }
+
         if (utils.inRange(client.player.getPos(), new Vec3d(1128, 65, 1006), 200)) {
             Iterable<Entity> iterator = client.world.getEntities();
             for (Entity entity : iterator) {
@@ -77,17 +82,15 @@ public abstract class DamageTracking {
         }
     }
 
-
-
     public static LivingEntity getEntity() {
         return livingEntity;
     }
 
-    public static float getDps(){
+    public static float getDps() {
         return dps;
     }
-    
-    public static void resetTarget(){
+
+    public static void resetTarget() {
         livingEntity = null;
     }
 }

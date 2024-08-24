@@ -174,7 +174,7 @@ public abstract class ClientRender {
             // get positions
             Box box = particles.get(i).getBoundingBox();
             Vec3d pos = new Vec3d(box.minX, box.minY, box.minZ);
-            Vec3d size = new Vec3d(box.getXLength(), box.getYLength(), box.getZLength());
+            Vec3d size = new Vec3d(box.getLengthX(), box.getLengthY(), box.getLengthZ());
             Vec3d cameraPos = camera.getPos();
 
             matrixStack.push();
