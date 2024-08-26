@@ -22,10 +22,13 @@ public abstract class Commands {
                         context.getSource().sendFeedback(Text.literal("display: toggles the waypoint display\n"));
                         context.getSource().sendFeedback(Text.literal("/toggleHead: toggles the rendering of player heads\n"));
                         context.getSource().sendFeedback(Text.literal("/toggleCooldowns: toggles the display of cooldowns\n"));
-                        context.getSource().sendFeedback(Text.literal("/renderPickups: toggles the rendering of pickups\n"));
+                        context.getSource().sendFeedback(Text.literal("/togglePickups: toggles the rendering of pickups\n"));
                         context.getSource().sendFeedback(Text.literal("/setPickupColor (float) (float) (float): sets the color of the pickups\n"));
                         context.getSource().sendFeedback(Text.literal("/clearPickups: clears all pickups\n"));
                         context.getSource().sendFeedback(Text.literal("/resetTarget: Resets the targetdummy for the damage tracker to track\n"));
+                        context.getSource().sendFeedback(Text.literal("/toggleTreasures: toggles the rendering of treasures\n"));
+                        context.getSource().sendFeedback(Text.literal("/setTreasureColor (float) (float) (float): sets the color of treasures\n"));
+
                                 return 1;
                         }))); 
 
@@ -86,9 +89,12 @@ public abstract class Commands {
                                         .then(ClientCommandManager.argument("green", FloatArgumentType.floatArg())
                                                 .then(ClientCommandManager.argument("blue", FloatArgumentType.floatArg())
                                 .executes(context -> {
-                                        PickupHighlight.red = FloatArgumentType.getFloat(context, "red");
-                                        PickupHighlight.blue = FloatArgumentType.getFloat(context, "blue");
-                                        PickupHighlight.green = FloatArgumentType.getFloat(context, "green");
+                                        Config.pickupRed = FloatArgumentType.getFloat(context, "red");
+                                        Config.set("pickupRed", Config.pickupRed);
+                                        Config.pickupGreen = FloatArgumentType.getFloat(context, "green");
+                                        Config.set("pickupGreen", Config.pickupGreen);
+                                        Config.pickupBlue = FloatArgumentType.getFloat(context, "blue");
+                                        Config.set("pickupBlue", Config.pickupBlue);
                                         return 1;
                                 }))))));  
 
@@ -114,7 +120,32 @@ public abstract class Commands {
                                 .executes(context -> {
                                         DamageTracking.resetTarget();
                                         return 1;
-                                })));  
+                                }))); 
+
+        ClientCommandRegistrationCallback.EVENT
+                .register((dispatcher, registryAccess) -> dispatcher
+                        .register(ClientCommandManager.literal("setTreasureColor")
+                                .then(ClientCommandManager.argument("red", FloatArgumentType.floatArg())
+                                        .then(ClientCommandManager.argument("green", FloatArgumentType.floatArg())
+                                                .then(ClientCommandManager.argument("blue", FloatArgumentType.floatArg())
+                                .executes(context -> {
+                                        Config.treasureRed = FloatArgumentType.getFloat(context, "red");
+                                        Config.set("treasureRed", Config.treasureRed);
+                                        Config.treasureGreen = FloatArgumentType.getFloat(context, "green");
+                                        Config.set("treasureGreen", Config.treasureGreen);
+                                        Config.treasureBlue = FloatArgumentType.getFloat(context, "blue");
+                                        Config.set("treasureBlue", Config.treasureBlue);
+                                        return 1;
+                                })))))); 
+                                
+        ClientCommandRegistrationCallback.EVENT
+                .register((dispatcher, registryAccess) -> dispatcher
+                        .register(ClientCommandManager.literal("toggleTreasures")
+                                .executes(context -> {
+                                        Config.renderTreasures = !Config.renderTreasures;
+                                        Config.set("renderTreasures", Config.renderTreasures);
+                                        return 1;
+                                }))); 
                         }   
                         
                         

@@ -9,6 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import mineward.utils.Dimension;
 import mineward.utils.GwonkleHelper;
 import mineward.utils.PickupHighlight;
+import mineward.utils.TreasureHighlight;
 import mineward.utils.Waypoint;
 import mineward.utils.config.Config;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
@@ -21,6 +22,7 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
@@ -45,12 +47,15 @@ public abstract class ClientRender {
      * @param context
      */
     public static void onWorldRender(WorldRenderContext context) {
-        if (Config.renderWaypoints && Dimension.getDimension().contains("oceanarea")) {
+        if (Config.renderWaypoints && Dimension.inDimension("oceanarea")) {
             renderWaypoints(context);
         }
-        if (Config.renderPickups && Dimension.getDimension().contains("anvahar")) {
+        if (Config.renderPickups && Dimension.inDimension("anvahar")) {
             renderPickups(context.matrixStack(), context.camera());
+        }
 
+        if (Config.renderTreasures) {
+            renderTreasures(context.matrixStack(), context.camera());
         }
     }
 
@@ -161,7 +166,7 @@ public abstract class ClientRender {
      * @param camera      Camera
      */
     public static void renderPickups(MatrixStack matrixStack, Camera camera) {
-        RenderSystem.setShaderColor(PickupHighlight.red, PickupHighlight.green, PickupHighlight.blue, 1);
+        RenderSystem.setShaderColor(Config.pickupRed, Config.pickupGreen, Config.pickupBlue, 1);
         ArrayList<Particle> particles = PickupHighlight.getParticles();
 
         Tessellator tessellator = RenderSystem.renderThreadTesselator();
@@ -198,5 +203,41 @@ public abstract class ClientRender {
      */
     public static double lerp(double x) {
         return Math.sin(2 * x * Math.PI) + 0.1;
+    }
+
+    /**
+     * Renders all treasure chests
+     * 
+     * @param matrixStack
+     * @param camera
+     */
+    public static void renderTreasures(MatrixStack matrixStack, Camera camera) {
+        RenderSystem.setShaderColor(Config.treasureRed, Config.treasureGreen, Config.treasureBlue, 1);
+        ArrayList<LivingEntity> entities = TreasureHighlight.getEntities();
+
+        Tessellator tessellator = RenderSystem.renderThreadTesselator();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+
+        RenderSystem.setShader(GameRenderer::getPositionProgram);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
+        for (int i = 0; i < entities.size(); i++) {
+
+            // get positions
+            Box box = entities.get(i).getBoundingBox();
+            Vec3d pos = new Vec3d(box.minX, box.minY, box.minZ);
+            Vec3d size = new Vec3d(box.getLengthX(), 0.5, box.getLengthZ());
+            Vec3d cameraPos = camera.getPos();
+
+            matrixStack.push();
+            matrixStack.translate(pos.x - cameraPos.x, pos.y - cameraPos.y + 1.5, pos.z - cameraPos.z);
+            Matrix4f positionMatrix = matrixStack.peek().getPositionMatrix();
+
+            Shape.buildCube(bufferBuilder, positionMatrix, new Vec3d(0, 0, 0), size);
+
+            matrixStack.pop();
+        }
+
+        tessellator.draw();
+        RenderSystem.setShaderColor(1, 1, 1, 1);
     }
 }

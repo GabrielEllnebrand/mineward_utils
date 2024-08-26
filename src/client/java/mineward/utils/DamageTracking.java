@@ -61,7 +61,7 @@ public abstract class DamageTracking {
     }
 
     private static void findDummy(MinecraftClient client) {
-        if (!Dimension.getDimension().contains("overworld")) {
+        if (!Dimension.inDimension("overworld")) {
             return;
         }
 

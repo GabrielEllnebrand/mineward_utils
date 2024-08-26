@@ -31,7 +31,11 @@ public abstract class Dimension {
         }
     }
 
-    public static String getDimension(){
-        return dimension;
+    // public static String getDimension(){
+    //     return dimension;
+    // }
+
+    public static boolean inDimension(String str){
+        return dimension.contains(str);
     }
 }

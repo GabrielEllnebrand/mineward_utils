@@ -13,9 +13,6 @@ public abstract class PickupHighlight {
 
     private static String instanceName = "anvahar";
     private static ArrayList<Particle> particles = new ArrayList<>();
-    public static float red = 0;
-    public static float blue = 0;
-    public static float green = 0;
 
     /**
      * Updates the particle list and checks if there is any particles that needs to be removed
@@ -31,7 +28,7 @@ public abstract class PickupHighlight {
             }
         }
 
-        if (!Dimension.getDimension().contains(instanceName)) {
+        if (!Dimension.inDimension(instanceName)) {
             particles.clear();
         }
     }
@@ -46,10 +43,6 @@ public abstract class PickupHighlight {
 
     public static void add(Particle particle){
         particles.add(particle);
-    }
-
-    public static String color(){
-        return red + " "  + blue + " " + green;
     }
 
     public static void increasePickupCount(){

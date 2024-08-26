@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import mineward.utils.DamageTracking;
 import mineward.utils.Dimension;
 import mineward.utils.GwonkleHelper;
+import mineward.utils.LottbsTimer;
 import mineward.utils.Waypoint;
 import mineward.utils.utils;
 import mineward.utils.config.Config;
@@ -20,11 +21,11 @@ public abstract class ClientGUI {
     public static void register() {
         HudRenderCallback.EVENT.register((context, tickDelta) -> {
 
-            if (Dimension.getDimension().contains("overworld")) {
+            if (Dimension.inDimension("overworld")) {
                 renderDamageTracking(context);
             }
 
-            if (Config.displayWaypoints && Dimension.getDimension().contains("oceanarea")) {
+            if (Config.displayWaypoints && Dimension.inDimension("oceanarea")) {
                 renderWaypointGUI(context);
             }
             if (Config.displayCooldowns) {
@@ -33,6 +34,23 @@ public abstract class ClientGUI {
             if (Config.displayPickupCount) {
                 renderPickupCount(context);
             }
+
+            if (Dimension.inDimension("hyrrill")) {
+                renderLottbsTimer(context);
+
+                LivingEntity entity = LottbsTimer.getLottbs();
+                if (entity == null) {
+                    return;
+                }
+
+                MinecraftClient client = utils.getClient();
+
+                context.drawText(client.textRenderer, entity.getHealth() + "", 150,
+                        40,
+                        0xffffff,
+                        true);
+            }
+
         });
 
     }
@@ -41,7 +59,7 @@ public abstract class ClientGUI {
         LivingEntity livingEntity = DamageTracking.getEntity();
         MinecraftClient client = utils.getClient();
 
-        if (livingEntity != null &&  utils.inRange(client.player.getPos(), new Vec3d(1128, 65, 1006), 100)) {
+        if (livingEntity != null && utils.inRange(client.player.getPos(), new Vec3d(1128, 65, 1006), 100)) {
             context.drawText(client.textRenderer, DamageTracking.getDps() + "/s", 150,
                     40,
                     0xffffff,
@@ -123,5 +141,20 @@ public abstract class ClientGUI {
         if (client.world.getRegistryKey().getValue().toString().contains("anvahar")) {
             context.drawText(client.textRenderer, "Pickups: " + Config.pickupCount, 70, 240, 0xffffffff, true);
         }
+    }
+
+    public static void renderLottbsTimer(DrawContext context) {
+        float time = LottbsTimer.getTime();
+        if (time <= 0) {
+            return;
+        }
+
+        String str = new DecimalFormat("###.#").format(time) + "s";
+        MinecraftClient client = utils.getClient();
+        int length = (int) (100 * (10 / 10)) + 370;
+
+        context.fill(370, 70 + 10, length, 70 + 21, 0xffee2222);
+        context.drawText(client.textRenderer, str, 370 + 45, 70 + 12, 0xFF070707, false);
+        context.drawBorder(370, 70 + 10, 100, 11, 0xFF000000);
     }
 }

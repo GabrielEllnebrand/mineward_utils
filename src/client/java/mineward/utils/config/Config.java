@@ -23,8 +23,17 @@ public abstract class Config {
     public static boolean displayCooldowns = true;
     public static boolean displayPickupCount = true;
     public static boolean usePerformanceMode = true;
+    public static boolean renderTreasures = true;
 
     public static int pickupCount = 0;
+
+    public static float pickupRed = 0;
+    public static float pickupGreen = 0;
+    public static float pickupBlue = 0;
+
+    public static float treasureRed = 0;
+    public static float treasureGreen = 0;
+    public static float treasureBlue = 0;
 
     /**
      * Registers config
@@ -59,6 +68,17 @@ public abstract class Config {
         displayPickupCount = searchBool("displayPickupCount", true);
         pickupCount = searchInt("pickupCount", 0);
         usePerformanceMode = searchBool("usePerformanceMode", true);
+        renderTreasures = searchBool("renderTreasures", true);
+
+        //pickup color
+        pickupRed = searchFloat("pickupRed", 0);
+        pickupGreen = searchFloat("pickupGreen", 0);
+        pickupBlue = searchFloat("pickupBlue", 0);
+
+        //chest color
+        treasureRed = searchFloat("treasureRed", 0);
+        treasureGreen = searchFloat("treasureGreen", 1);
+        treasureBlue = searchFloat("treasureBlue", 0);
     }
 
     /**
@@ -78,7 +98,7 @@ public abstract class Config {
         }
     }
 
-        /**
+    /**
      * Searches for if that int exists in the config file, if not add it and set
      * to default value
      * 
@@ -89,6 +109,23 @@ public abstract class Config {
         String parsed = getString(string);
         if (parsed != null) {
             return parseInt(parsed);
+        } else {
+            add(string, defaultValue);
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Searches for if that int exists in the config file, if not add it and set
+     * to default value
+     * 
+     * @param string       String to search
+     * @param defaultValue int, default value
+     */
+    private static float searchFloat(String string, float defaultValue) {
+        String parsed = getString(string);
+        if (parsed != null) {
+            return parseFloat(parsed, defaultValue);
         } else {
             add(string, defaultValue);
             return defaultValue;
@@ -157,7 +194,7 @@ public abstract class Config {
      * Takes in a string and returns the setting for an int value
      * 
      * @param string
-     * @return True if true, false otherwise
+     * @return The value if parsed, else 0
      */
     private static int parseInt(String string) {
         int index = string.indexOf(":");
@@ -166,6 +203,22 @@ public abstract class Config {
             return Integer.valueOf(parsed);
         } catch (NumberFormatException e) {
             return 0;
+        }
+    }
+
+    /**
+     * Takes in a string and returns the setting for a float value
+     * 
+     * @param string
+     * @return The value if parse, else a default value
+     */
+    private static float parseFloat(String string, float defaultValue) {
+        int index = string.indexOf(":");
+        String parsed = string.substring(index + 1);
+        try {
+            return Float.valueOf(parsed);
+        } catch (NumberFormatException e) {
+            return defaultValue;
         }
     }
 
