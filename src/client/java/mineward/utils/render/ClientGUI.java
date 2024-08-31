@@ -37,18 +37,6 @@ public abstract class ClientGUI {
 
             if (Dimension.inDimension("hyrrill")) {
                 renderLottbsTimer(context);
-
-                LivingEntity entity = LottbsTimer.getLottbs();
-                if (entity == null) {
-                    return;
-                }
-
-                MinecraftClient client = utils.getClient();
-
-                context.drawText(client.textRenderer, entity.getHealth() + "", 150,
-                        40,
-                        0xffffff,
-                        true);
             }
 
         });

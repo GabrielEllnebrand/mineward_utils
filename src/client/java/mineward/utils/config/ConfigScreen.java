@@ -117,6 +117,13 @@ public class ConfigScreen extends Screen {
         .tooltip(Tooltip.of(Text.literal("Toggles treasure highlighter")))
         .build();
 
+    ButtonWidget buttonThing = ButtonWidget
+        .builder(Text.literal("Color selector"), button -> {
+          client.setScreen(new ColorScreen(this));
+        })
+        .dimensions(width / 4 - 10, 120, buttonWidth, 20)
+        .build();
+
     addDrawableChild(displayWaypoints);
     addDrawableChild(renderWaypoints);
     addDrawableChild(playerHead);
@@ -125,6 +132,7 @@ public class ConfigScreen extends Screen {
     addDrawableChild(displayPickupCount);
     addDrawableChild(usePerformanceMode);
     addDrawableChild(renderTreasures);
+    addDrawableChild(buttonThing);
   }
 
   /**

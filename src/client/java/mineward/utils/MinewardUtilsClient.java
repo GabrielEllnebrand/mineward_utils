@@ -21,6 +21,7 @@ public class MinewardUtilsClient implements ClientModInitializer {
 
 		GwonkleHelper.resetWaypoints();
 
+
 		ClientTickEvents.END_CLIENT_TICK.register((client) -> {
 			PickupHighlight.updateParticles(client);
 			Cooldown.runTickFunctions(client);
