@@ -9,7 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 
 public abstract class TreasureHighlight {
-    private static ArrayList<LivingEntity> entities = new ArrayList<>();
+    private static final ArrayList<LivingEntity> entities = new ArrayList<>();
     private static float totalTickDelta = 0;
 
     public static void detect(MinecraftClient client) {
@@ -31,17 +31,17 @@ public abstract class TreasureHighlight {
 
     /**
      * sets entities to all entities in the world
-     * 
      * @param client
      */
     public static void updateEntities(MinecraftClient client) {
         entities.clear();
 
+
+        if (client.world == null) return;
+
         Iterable<Entity> ireatable = client.world.getEntities();
         for (Entity entity : ireatable) {
-            if (entity == null) {
-                return;
-            }
+            if (entity == null) continue;
 
             if (entity instanceof LivingEntity && entity.getType() == EntityType.ARMOR_STAND) {
                 Iterable<ItemStack> armour = entity.getArmorItems();

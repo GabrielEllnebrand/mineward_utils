@@ -16,7 +16,6 @@ public abstract class OracleSolver {
             MinecraftClient client = utils.getClient();
 
             client.inGameHud.getChatHud().addMessage(text);
-
         } catch (Exception e) {
             // failed to parse string
         }
@@ -48,6 +47,7 @@ public abstract class OracleSolver {
 
     /**
      * Gets the format for the answer
+     * 
      * @param string String
      * @param answer int
      * @return The answers color, if no match returns Formatting.WHITE
@@ -75,7 +75,7 @@ public abstract class OracleSolver {
      * @param string String
      * @param start  String, the part of the string to start parsing
      * @param end    String, the part ofthe string to end parsing
-     * @return  int, the int inbetween, if none returns 0;
+     * @return int, the int inbetween, if none returns 0;
      */
     public static int parseInt(String string, String start, String end) {
         try {
