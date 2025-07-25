@@ -3,7 +3,9 @@
 	"package": "mineward.utils.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"ExampleClientMixin"
+		"MessageMixin",
+		"PickupAddMixin",
+		"WorldSwapMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

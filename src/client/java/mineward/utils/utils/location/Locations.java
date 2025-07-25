@@ -1,0 +1,21 @@
+package mineward.utils.utils.location;
+
+public enum Locations {
+    NONE,
+    OVERWORLD,
+    ANCIENT_COLOSSUS,
+    ANCIENT_TOMB_T1,
+    ANCIENT_TOMB_T2,
+    ANCIENT_TOMB_T3,
+    ANVAHAR_TOMB,
+    CAVE_DUNGEON,
+    EARTH_TOAD,
+    ETHEREAL_ARENA,
+    GATEKEEPER_ARENA,
+    HYRRILL_TOMB,
+    MAGMA_TOAD,
+    SKARRAH_TOMB,
+    SNOW_TOAD,
+    VORKLAS_TOMB,
+    WYRETH_TOMB
+}
