@@ -26,7 +26,7 @@ public class Keybinds {
     public static void checkInputs(MinecraftClient client) {
 
         if (openConfig.wasPressed()) {
-            client.setScreen(Config.createScreen());
+            client.setScreen(Config.createScreen(null));
         }
     }
 }

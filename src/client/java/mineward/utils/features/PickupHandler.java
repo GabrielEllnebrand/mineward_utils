@@ -4,7 +4,10 @@ import config.practical.manager.ConfigValue;
 import mineward.utils.utils.config.Config;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 
 import java.util.ArrayList;
 
@@ -37,7 +40,9 @@ public class PickupHandler {
     }
 
     public static void checkPickup(Entity entity) {
-        if (entity.getType() == EntityType.ARMOR_STAND) {
+        if (entity instanceof ArmorStandEntity armorStand) {
+            ItemStack item = armorStand.getEquippedStack(EquipmentSlot.HEAD);
+            if (item.isOf(Items.PLAYER_HEAD)) return;
             pickupCount++;
             Config.manager.save();
         }

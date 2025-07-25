@@ -21,8 +21,8 @@ public class Config {
     public static final ConfigManager manager = new ConfigManager("./config/" + Constants.NAMESPACE + ".json",
             List.of(PickupHandler.class, OracleSolver.class, EntityHandler.class));
 
-    public static Screen createScreen() {
-        ConfigurableScreen screen = new ConfigurableScreen(TITLE);
+    public static Screen createScreen(Screen parent) {
+        ConfigurableScreen screen = new ConfigurableScreen(TITLE, parent);
 
         ConfigCategory tombs = new ConfigCategory("Tombs");
         tombs.add(new ConfigBool(Text.literal("Highlight crystals"), manager, () -> EntityHandler.highlightCrystals, bool -> EntityHandler.highlightCrystals = bool));
