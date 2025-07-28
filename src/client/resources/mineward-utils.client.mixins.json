@@ -1,13 +1,14 @@
 {
-	"required": true,
-	"package": "mineward.utils.mixin.client",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-		"MessageMixin",
-		"PickupAddMixin",
-		"WorldSwapMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "mineward.utils.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "HungerBarMixin",
+    "MessageMixin",
+    "PickupAddMixin",
+    "WorldSwapMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

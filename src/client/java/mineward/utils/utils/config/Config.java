@@ -24,6 +24,11 @@ public class Config {
     public static Screen createScreen(Screen parent) {
         ConfigurableScreen screen = new ConfigurableScreen(TITLE, parent);
 
+        ConfigCategory general = new ConfigCategory("General");
+        general.add(new ConfigBool(Text.literal("Hide hunger"), manager, () -> MiscValues.hideHunger, bool -> MiscValues.hideHunger = bool));
+
+        screen.addCategory(general);
+
         ConfigCategory tombs = new ConfigCategory("Tombs");
         tombs.add(new ConfigBool(Text.literal("Highlight crystals"), manager, () -> EntityHandler.highlightCrystals, bool -> EntityHandler.highlightCrystals = bool));
         tombs.add(new ConfigColor(Text.literal("Crystal color"), manager, () -> EntityHandler.crystalColor, color -> EntityHandler.crystalColor = color));
