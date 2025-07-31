@@ -3,7 +3,7 @@
   "package": "mineward.utils.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "HungerBarMixin",
+    "InGameHudMixin",
     "MessageMixin",
     "PickupAddMixin",
     "WorldSwapMixin"
